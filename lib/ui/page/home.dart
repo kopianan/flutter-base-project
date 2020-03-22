@@ -1,25 +1,15 @@
+
 import 'package:base_project/bloc/post_bloc/post_bloc.dart';
-import 'package:base_project/network/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   Home({Key key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  PostBloc _postBloc;
-  @override
-  void initState() {
-    _postBloc = BlocProvider.of<PostBloc>(context);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final postBloc = BlocProvider.of<PostBloc>(context); 
+
     return Scaffold(
       body: Container(
           width: double.infinity,
@@ -30,7 +20,7 @@ class _HomeState extends State<Home> {
                   child: Container(
                       color: Colors.grey,
                       child: BlocBuilder<PostBloc, PostState>(
-                        bloc: _postBloc,
+                        // bloc:postBloc,
                         builder: (context, state) {
                           if (state is PostWaiting) {
                             return _loadingCenter();
@@ -41,20 +31,21 @@ class _HomeState extends State<Home> {
                             );
                           }
                           if (state is PostLoaded) {
-                            return _listPostData(state);
+                            return _listPostData(context, state);
                           }
                           if (state is PostInitial) {
                             return Container(
                               child: Center(child: Text("Press the button")),
                             );
                           }
+                           return _listPostData(context, state);
                         },
                       ))),
               Container(
                 child: RaisedButton(
                   child: Text("Get Data From Internet"),
                   onPressed: () {
-                    _postBloc.add(GetListPost());
+                    postBloc.add(GetListPost());
                   },
                 ),
               )
@@ -69,7 +60,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  ListView _listPostData(PostLoaded state) {
+  ListView _listPostData(BuildContext context, PostLoaded state) {
     return ListView.builder(
         itemCount: state.listPost.length,
         itemBuilder: (context, index) {
