@@ -1,4 +1,4 @@
-import 'package:base_project/models/user.dart';
+import 'package:base_project/data_class/user_data_class.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +10,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Future<List<UserDataClass>> futureUser = null;
 
-  Future<List<User>> futureUser = null;
-
-  Future<List<User>> getDataFromApi() async {
+  Future<List<UserDataClass>> getDataFromApi() async {
     Dio dio = Dio();
     Response response = await dio.get("https://jsonplaceholder.typicode.com/users");
+    print(response.data.toString()) ; 
     List responseData = response.data;
-    List<User> userData = responseData.map((f) => User.fromJson(f)).toList();
+    List<UserDataClass> userData = responseData.map((f) => UserDataClass.fromMap(f)).toList();
+
     return userData;
   }
 
@@ -30,7 +31,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<User>>(
+      body: FutureBuilder<List<UserDataClass>>(
         future: futureUser,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
