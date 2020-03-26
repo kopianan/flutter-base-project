@@ -1,4 +1,6 @@
+import 'package:base_project/ui/login/login_store.dart';
 import 'package:flutter/material.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -53,7 +55,8 @@ class _LoginPageState extends State<LoginPage> {
                   "Login",
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                },
               ),
             )
           ],
