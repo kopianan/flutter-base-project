@@ -1,3 +1,4 @@
+import 'package:base_project/ui/login/login_page.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -12,7 +13,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Text("Hi There"),
+        child: Column(
+          children: <Widget>[
+            Text("Hi There"),
+            RaisedButton(
+              child: Text("Next =>"),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+            )
+          ],
+        ),
       ),
     );
   }
